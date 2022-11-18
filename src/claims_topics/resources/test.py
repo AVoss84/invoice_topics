@@ -25,10 +25,11 @@ reload(utils)
 reload(file)
 reload(config)
 reload(preproc)
+
 #-------------------------------------------------------------------------------------
 config_input = config.io['input']
 
-df = file.CSVService(root_path=glob.UC_DATA_DIR, **config_input['service']['CSVService']).doRead()
+df = file.CSVService(root_path=glob.UC_DATA_DIR, schema_map=config_input['schema_map']['text_cols'], **config_input['service']['CSVService']).doRead()
 
 print(df.shape)
 
@@ -36,34 +37,59 @@ print(df.shape)
 # Columns to use:
 #-----------------
 #col_sel = ['id_sch','invoice_item_id', 'dl_gewerk','firma', 'yylobbez', 'erartbez', 'hsp_eigen', 'hsp_prodbez', 'sartbez', 'sursbez', 'schilderung', 'de1_eks_postext']
-col_sel = ['dl_gewerk','de1_eks_postext']
+#col_sel = ['dl_gewerk','de1_eks_postext']
+col_sel = ['assigned_labels', 'invoice_text']
 #col_sel = ['de1_eks_postext']
 
 corpus = df[col_sel].drop_duplicates(subset=col_sel, keep=False)#.head(1*10**5)
 
 print(corpus.shape)
-corpus.head()
+corpus.head(10)
 
 #-------------------------------------------------------------------------------------
 # Create labels for supervised topic modeling:
-target = LabelEncoder().fit_transform(corpus['dl_gewerk'].tolist())   # labels
+target = LabelEncoder().fit_transform(corpus['assigned_labels'].tolist())   # labels
 
 # Build corpus
-X = corpus['de1_eks_postext']
+X = corpus['invoice_text']
 #corpus['target'] = target
 
 # Preprocess corpus:
-cleaner = preproc.clean_text(language='german', without_stopwords=['nicht', 'keine'], lemma = False, stem = True)
+cleaner = preproc.clean_text(language='german', without_stopwords=['nicht', 'keine'], lemma = True, stem = False)
 
 X_cl = cleaner.fit_transform(X)
 
 docs = X_cl.tolist()                            # format for BertTopic
-target_names = corpus['dl_gewerk'].tolist()       # class labels
+target_names = corpus['assigned_labels'].tolist()       # class labels
 
 corpus_cl = X_cl.apply(lambda x: word_tokenize(x))       # this format needed for word2vec training only
 
 sentences = corpus_cl.tolist() 
 
+#-----------------------------------------------------------------------------------------------------
+
+# Prepare FastText train set:
+txt = file.TXTService(verbose=True, root_path=glob.UC_DATA_PKG_DIR, path='train_fasttext.txt')
+
+txt.doWrite(sentences)
+
+txt.doRead()
+
+import fasttext
+
+# Training the fastText classifier
+model = fasttext.train_supervised('train.txt', wordNgrams = 2)
+
+# Evaluating performance on the entire test file
+model.test('test.txt')                      
+
+# Predicting on a single input
+#model.predict(ds.iloc[2, 0])
+
+# Save the trained model
+#model.save_model('model.bin')
+
+#ds.iloc[:, 1].apply(lambda x: '__label__' + x)
 #-------------------------------------------------------------------------------------
 model = Word2Vec.load(glob.UC_DATA_DIR + "/Word2Vec_embeddings.model")
 

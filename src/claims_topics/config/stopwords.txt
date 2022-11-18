@@ -18,3 +18,5 @@ form
 defekt
 alt
 kleindicht
+stunde
+press
