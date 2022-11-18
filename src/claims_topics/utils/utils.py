@@ -38,6 +38,7 @@ class clean_text(BaseEstimator, TransformerMixin):
         self.lemma = lemma
         self.stop_words = set(stopwords.words(language))
         if self.verbose: print(f'Using {len(self.stop_words)} stop words.')
+        
         try:
             self.german_stopwords = file.JSONservice(verbose=False, root_path = glob.UC_CODE_DIR, path = 'config/stopwords.json').doRead()
             self.stop_words = self._add_stopwords(self.german_stopwords)

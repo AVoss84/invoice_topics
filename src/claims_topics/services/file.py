@@ -4,7 +4,7 @@ Services for reading and writing from and to various file formats
 
 import pandas as pd
 from imp import reload
-import os, yaml
+import os, yaml, json
 from typing import (Dict, List, Text, Optional, Any, Union)
 from claims_topics.config import global_config as glob
 
@@ -226,9 +226,11 @@ class JSONservice:
             self.path = os.path.join(root_path, path)
             self.verbose = verbose
         
-        def doRead(self, **kwargs):  
-            """
-            Read in JSON file from specified path
+        def doRead(self, **kwargs)-> dict:  
+            """Read in JSON file from specified path
+
+            Returns:
+                dict: Output imported data
             """
             try:
                 with open(self.path, 'r') as stream:
@@ -239,12 +241,14 @@ class JSONservice:
                 print(exc) 
             
         def doWrite(self, X: dict, **kwargs):
-            """
-            Write X to JSON file
+            """Write X to JSON file
+
+            Args:
+                X (dict): Input data
             """
             with open(self.path, 'w', encoding='utf-8') as outfile:
                 try:
-                    outfile.write(json.dump(X, ensure_ascii=False, indent=4, **kwargs))
+                    json.dump(X, outfile, ensure_ascii=False, indent=4, **kwargs)
                     if self.verbose: print(f'Write to: {self.path}')
                 except Exception as exc:
                     print(exc) 
