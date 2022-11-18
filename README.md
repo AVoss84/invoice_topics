@@ -1,6 +1,6 @@
 # Invoice topic modeling project
 
-This is a blueprint of a generic end-to-end data science project, i.e. building a Python package along the usual steps: data preprocessing, model training, prediction, postprocessing, REST API construction (for real-time model serving) and containerization for final deployment as a microservice.
+Python package for invoice data topic exploration
 
 ## Package structure
 
