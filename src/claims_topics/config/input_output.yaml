@@ -8,10 +8,9 @@ input:
         #   categorical_cols:
         #       Claim Reference: clm_no 
         #       Line of Business Long Desc: clm_lob 
-
           text_cols:
               dl_gewerk: assigned_labels 
-              de1_eks_postext: invoice_text clm_third_area_desc 
+              de1_eks_postext: invoice_text 
         #   date_cols: 
         #       Date of Loss: clm_dol 
         #       Notification Date: clm_don 

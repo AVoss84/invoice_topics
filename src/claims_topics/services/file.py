@@ -23,7 +23,7 @@ class CSVService:
         """
         self.path = os.path.join(root_path, path)
         self.delimiter = delimiter
-        self.verbose=verbose
+        self.verbose = verbose
         self.encoding = encoding
         self.schema_map = schema_map
 
