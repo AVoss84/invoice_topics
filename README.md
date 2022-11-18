@@ -59,4 +59,7 @@ conda env create -f environment.yml
 conda activate invoice_clustering
 ```
 
- 
+Install your package
+```bash
+pip install -e src
+``` 
