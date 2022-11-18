@@ -169,7 +169,7 @@ class clean_text(BaseEstimator, TransformerMixin):
         corpus = corpus.apply(self.remove_spec_char_punct)
         if self.verbose: print("Removing short tokens.")
         corpus = corpus.apply(self.remove_short_tokens, token_length=3)
-        if self.stem: 
+        if self.stemming: 
             if self.verbose: print("Applying stemming.") 
             corpus = corpus.apply(self.stem)          # German stemmer
         if self.lemma: 
