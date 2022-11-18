@@ -22,8 +22,8 @@ from copy import deepcopy
 from tqdm.auto import tqdm
 #from tqdm import tqdm
 import pandas as pd
-from invoice_topics.services import file
-from invoice_topics.config import global_config as glob
+from claims_topics.services import file
+from claims_topics.config import global_config as glob
 
 nltk.download('punkt')
 nltk.download('stopwords')

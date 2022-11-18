@@ -1,1 +1,1 @@
-import invoice_topics
+import claims_topics
