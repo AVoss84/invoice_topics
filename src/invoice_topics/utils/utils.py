@@ -6,7 +6,6 @@ from nltk.stem.snowball import SnowballStemmer
 #from pydantic import BaseModel
 from nltk.tokenize import word_tokenize, RegexpTokenizer
 import numpy as np
-import networkx as nx
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import Pipeline
 from typing import (Dict, List, Text, Optional, Any, Callable, Union)
@@ -20,11 +19,11 @@ from gensim.models.callbacks import CallbackAny2Vec
 from pprint import pprint
 from gensim.parsing.preprocessing import stem_text, strip_multiple_whitespaces, strip_short, strip_non_alphanum, strip_punctuation, strip_numeric
 from copy import deepcopy
-#from tqdm.auto import tqdm
-from tqdm import tqdm
+from tqdm.auto import tqdm
+#from tqdm import tqdm
 import pandas as pd
-from src.services import file
-from src.config import global_config as glob
+from invoice_topics.services import file
+from invoice_topics.config import global_config as glob
 
 nltk.download('punkt')
 nltk.download('stopwords')
