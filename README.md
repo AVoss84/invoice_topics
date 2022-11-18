@@ -59,7 +59,13 @@ conda env create -f environment.yml
 conda activate invoice_clustering
 ```
 
+*Optional: if you wish to use JupyterHub on DP*
+```bash
+python -m ipykernel install --user --name invoice_clustering
+```
+
 Install your package
 ```bash
+python -m spacy download de_core_news_lg      # install large Glove engl. word embeddings
 pip install -e src
 ``` 

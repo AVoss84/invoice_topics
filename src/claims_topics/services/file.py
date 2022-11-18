@@ -27,7 +27,7 @@ class CSVService:
         self.encoding = encoding
         self.schema_map = schema_map
 
-    def doRead(self, **kwargs) -> pd.DataFrame:
+    def doRead(self, **kwargs)-> pd.DataFrame:
         """Read data from CSV
 
         Returns:
@@ -176,44 +176,46 @@ class YAMLservice:
 
 
 class TXTService:
-    def __init__(self, path : Optional[str] = "", encoding : str ="utf-8", root_path : Optional[str] = glob.UC_DATA_DIR, verbose : bool = True):
+    def __init__(self, path : Optional[str] = "", root_path : Optional[str] = glob.UC_DATA_DIR, verbose : bool = True):
         """Generic read/write service for TXT-files
 
         Args:
             path (Optional[str], optional): Filename. Defaults to "".
-            encoding (str, optional): see pd.read_csv. Defaults to "utf-8".
             root_path (Optional[str], optional): root path where file is located. Defaults to glob.UC_DATA_DIR.
             verbose (bool, optional): should user information be displayed?. Defaults to True.
         """
         self.path = os.path.join(root_path, path)
-        self.encoding = encoding
         self.verbose = verbose
 
-    def doRead(self, **kwargs) -> pd.DataFrame:
+    def doRead(self, **kwargs)-> List:
         """Read TXT files
 
         Returns:
-            pd.DataFrame: Read input data
+            List: Input data
         """
         try:
-            df = pd.read_csv(self.path, sep=" ", header=None, encoding = self.encoding, **kwargs)
+            with open(self.path, **kwargs) as f:
+                df = f.read().splitlines()
+            #df = pd.read_csv(self.path, sep=" ", header=None, encoding = self.encoding, **kwargs)
             if self.verbose : print(f"TXT Service read from file: {str(self.path)}")    
         except Exception as e0:
             print(e0); df = None
         finally: 
             return df
         
-    def doWrite(self, X : pd.DataFrame, **kwargs)-> bool:
+    def doWrite(self, X : List, **kwargs)-> bool:
         """Write to TXT files
 
         Args:
-            X (pd.DataFrame): Input data
+            X (List): Input data
 
         Returns:
             bool: True if write process was successful and vice versa
         """
         try:
-            X.to_csv(self.path, index=None, sep=' ', header=None, encoding = self.encoding, mode='w+', **kwargs)
+            with open(self.path, 'w', **kwargs) as f:
+                f.write('\n'.join(X))
+            #X.to_csv(self.path, index=None, sep=' ', header=None, encoding = self.encoding, mode='w+', **kwargs)
             if self.verbose : print(f"TXT Service output to file: {str(self.path)}")  
             return True
         except Exception as e0:
@@ -232,9 +234,11 @@ class JSONservice:
             Returns:
                 dict: Output imported data
             """
+            if os.stat(self.path).st_size == 0:         # if json not empty
+                return dict()
             try:
                 with open(self.path, 'r') as stream:
-                    my_json_load = json.load(stream)                    
+                    my_json_load = json.load(stream, **kwargs)                    
                 if self.verbose: print(f'Read: {self.path}')
                 return my_json_load    
             except Exception as exc:

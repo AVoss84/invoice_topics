@@ -2,33 +2,25 @@ input:
     service:
           CSVService:         
               path: Subsample.csv        # some input csv
+              delimiter: ","
 
     schema_map:
         #   categorical_cols:
         #       Claim Reference: clm_no 
         #       Line of Business Long Desc: clm_lob 
-        #       Sub Line of Business Desc: clm_sublob_orig 
-        #       Claimant Code: clmnt_code 
-        #       Participant Name Code: clm_prtcpnt_name_code 
-        #       Policy Number: pol_no 
-        #       Claim City: clm_city 
-        #       Claim Street: clm_street 
-        #       Claim Post Code: clm_postcode 
-        #       Claim Country: clm_country 
+
           text_cols:
               dl_gewerk: assigned_labels 
               de1_eks_postext: invoice_text clm_third_area_desc 
         #   date_cols: 
         #       Date of Loss: clm_dol 
         #       Notification Date: clm_don 
-        #       Date Claim Closed: clm_doc 
-        #       Date of last Movement: clm_dolm 
-        #       Date last Seen: clm_dls 
+
         #   numeric_cols:
         #       Claim Amount EUR: clm_amt
 
 output:
     service:
           PickleService:
-              path: sub_clm_out.pkl       
+              path: clm_out.pkl       
   
