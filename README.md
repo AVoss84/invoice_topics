@@ -5,21 +5,20 @@ This is a blueprint of a generic end-to-end data science project, i.e. building 
 ## Package structure
 
 ```
-├── docker-compose.yaml
-├── Dockerfile
-├── logs
-├── main.py                               # REST API definition 
+├── environment.yml
 ├── README.md
 ├── requirements.txt
 └── src
     ├── __init__.py
-    ├── my_package
+    ├── invoice_topics
     │   ├── config
     │   │   ├── config.py
-    │   │   ├── global_config.py          # user environemntal variables
+    │   │   ├── global_config.py
     │   │   ├── __init__.py
-    │   │   └── input_output.yaml         # structure reading and writing of files
-    │   ├── data                          # temporary data dump (will be git ignored)
+    │   │   ├── input_output.yaml
+    │   │   ├── preproc_txt.yaml
+    │   │   └── stopwords.json
+    │   ├── data
     │   ├── resources
     │   │   ├── __init__.py
     │   │   ├── postprocessor.py
@@ -31,12 +30,13 @@ This is a blueprint of a generic end-to-end data science project, i.e. building 
     │   │   ├── file.py
     │   │   ├── __init__.py
     │   │   ├── pipelines.py
-    │   │   ├── publisher.py
     │   │   └── README.md
     │   └── utils
     │       ├── __init__.py
     │       └── utils.py
     ├── notebooks
+    │   ├── topic_modeling.ipynb
+    │   └── word2vec.ipynb
     └── setup.py
 ```
 
