@@ -12,7 +12,7 @@ using = 'vm'                   # own virtual machine
 #-----------------------------------------------------------
 if using == 'vm':
     defaults = {
-            "UC_CODE_DIR": str(Path.home() / "Documents/GitHub/project_template/src"),       
+            "UC_CODE_DIR": str(Path.home() / "Documents/GitHub/invoice_topics/src"),       
             "UC_DATA_DIR": "",          # external
             "UC_DATA_PKG_DIR": "",      # internal, i.e. data folder within package                  
             "UC_DB_CONNECTION": 'postgresql://postgres...', 
