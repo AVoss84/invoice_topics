@@ -8,3 +8,13 @@ inkl
 klein
 tag
 matt
+stunde
+sack
+tag
+raum
+rohr
+folie
+form
+defekt
+alt
+kleindicht
