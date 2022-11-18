@@ -1,0 +1,21 @@
+name: invoice_clustering
+dependencies:
+  - python=3.10
+  - pip
+  - pandas==1.5.1
+  - xlrd
+  - openpyxl
+  - gensim
+  - jupyter    # for use in Jupyter notebook
+  - ipykernel   # for recognition of conda env in Jupyter notebook
+  - pip:
+    - bertopic==0.12.0
+    - spacy==3.4.3
+    - nltk==3.7
+   # - fasttext
+   # - pyLDAvis    # for topic visual.
+    - matplotlib==3.6.2
+   # - importlib
+   # - annoy
+   # - sentence_transformers
+   # - networkx
