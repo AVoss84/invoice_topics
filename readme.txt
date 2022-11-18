@@ -1,2 +1,0 @@
-herr, frau
-kind

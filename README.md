@@ -7,17 +7,16 @@ Python package for invoice data topic exploration
 ```
 ├── environment.yml
 ├── README.md
-├── requirements.txt
+├── requirements.txt                            # in case no conda available
 └── src
-    ├── __init__.py
-    ├── invoice_topics
+    ├── claims_topics
     │   ├── config
     │   │   ├── config.py
     │   │   ├── global_config.py
     │   │   ├── __init__.py
     │   │   ├── input_output.yaml
     │   │   ├── preproc_txt.yaml
-    │   │   └── stopwords.json
+    │   │   └── stopwords.txt
     │   ├── data
     │   ├── resources
     │   │   ├── __init__.py
@@ -25,18 +24,17 @@ Python package for invoice data topic exploration
     │   │   ├── predictor.py
     │   │   ├── preprocessor.py
     │   │   ├── README.md
+    │   │   ├── test.py
     │   │   └── trainer.py
     │   ├── services
     │   │   ├── file.py
     │   │   ├── __init__.py
-    │   │   ├── pipelines.py
     │   │   └── README.md
     │   └── utils
     │       ├── __init__.py
     │       └── utils.py
+    ├── __init__.py
     ├── notebooks
-    │   ├── topic_modeling.ipynb
-    │   └── word2vec.ipynb
     └── setup.py
 ```
 
