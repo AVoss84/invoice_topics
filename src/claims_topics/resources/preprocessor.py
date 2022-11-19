@@ -175,5 +175,5 @@ class clean_text(BaseEstimator, TransformerMixin):
             if self.verbose: print("Applying lemmatization.") 
             corpus = corpus.apply(self.lemmatize)  # makes preprocessing very slow though
         corpus = corpus.apply(self.untokenize)
-        if self.verbose: print("Finished preprocessing.")
+        if self.verbose: print("Finished preprocessing!")
         return corpus #.to_frame(name="text") 
