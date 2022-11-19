@@ -41,7 +41,7 @@ print(df.shape)
 col_sel = ['assigned_labels', 'invoice_text']
 #col_sel = ['de1_eks_postext']
 
-corpus = df[col_sel].drop_duplicates(subset=col_sel, keep=False)#.head(1*10**5)
+corpus = df[col_sel].drop_duplicates(subset=col_sel, keep=False) #.head(1*10**5)
 
 print(corpus.shape)
 corpus.head(10)

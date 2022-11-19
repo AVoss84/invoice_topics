@@ -26,10 +26,19 @@ nltk.download('stopwords')
 class clean_text(BaseEstimator, TransformerMixin):
 
     def __init__(self, verbose : bool = True, language : str = 'german', stem : bool = False, lemma : bool = False, **kwargs):
+        """Utility class for text preprocessing, i.e. cleaning + lemmatization or stemming
+
+        Args:
+            verbose (bool, optional): Show user info. Defaults to True.
+            language (str, optional): used language. Defaults to 'german'.
+            stem (bool, optional): Should stemming be used? Defaults to False.
+            lemma (bool, optional): Should lemmatization be used? Defaults to False.
+        """
         self.verbose = verbose
         self.kwargs = kwargs
         self.stemming = stem
         self.lemma = lemma
+        assert (self.lemma & self.stemming) != True, 'Use either lemmatization or stemming!'
         self.stop_words = set(stopwords.words(language))
         if self.verbose: print(f'Using {len(self.stop_words)} stop words.') 
         self.german_stopwords = file.TXTService(verbose=False, root_path=glob.UC_CODE_DIR + '/claims_topics/config', path='stopwords.txt').doRead()
@@ -53,11 +62,9 @@ class clean_text(BaseEstimator, TransformerMixin):
 
     def _add_stopwords(self, new_stopwords : Union[List, None])-> set:
         """
-        Change stopword list. Include into stopword list
-
+        Change stopword list. Include into stopword list.
         Args:
             new_stopwords (list): _description_
-
         Returns:
             set: updated stopwords
         """
@@ -70,10 +77,8 @@ class clean_text(BaseEstimator, TransformerMixin):
     def _remove_stopwords(self, without_stopwords : Union[List, None])-> set:
         """
         Change stopword list. Exclude from stopwords
-
         Args:
             without_stopwords (list): _description_
-
         Returns:
             set: updated stopwords
         """
@@ -94,13 +99,26 @@ class clean_text(BaseEstimator, TransformerMixin):
         """Remove whitespaces"""
         return  " ".join(text.split())
 
-    def remove_punctuation(self, text: str)-> str:    
+    def remove_punctuation(self, text: str)-> str:  
+       """Remove punctuation"""  
        return [re.sub(f"[{re.escape(punctuation)}]", "", token) for token in text]
 
     def remove_numbers(self, text: str)-> str:    
-       return [re.sub(r"\b[0-9]+\b\s*", "", token) for token in text]
+        """Remove numbers
+        Args:
+            text (str): _description_
+        Returns:
+            str: _description_
+        """
+        return [re.sub(r"\b[0-9]+\b\s*", "", token) for token in text]
 
     def remove_stopwords(self, text : str)-> str:
+        """Remove stopwords
+        Args:
+            text (str): _description_
+        Returns:
+            str: _description_
+        """
         return [token for token in text if token not in self.stop_words]
 
     def remove_digits(self, text: str)-> str: 
@@ -145,6 +163,12 @@ class clean_text(BaseEstimator, TransformerMixin):
         return self    
     
     def transform(self, X : pd.Series, **param)-> pd.Series:    
+        """Preprocess text
+        Args:
+            X (pd.Series): Input corpus
+        Returns:
+            pd.Series: transformed corpus
+        """
         corpus = deepcopy(X)
         if self.verbose: print("Setting to lower cases.")
         corpus = corpus.str.lower()
