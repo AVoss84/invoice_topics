@@ -7,7 +7,7 @@ Python package for invoice data topic exploration
 ```
 ├── environment.yml
 ├── README.md
-├── requirements.txt                            # in case no conda available
+├── requirements.txt                   # in case no conda being used
 └── src
     ├── claims_topics
     │   ├── config
@@ -24,7 +24,6 @@ Python package for invoice data topic exploration
     │   │   ├── predictor.py
     │   │   ├── preprocessor.py
     │   │   ├── README.md
-    │   │   ├── test.py
     │   │   └── trainer.py
     │   ├── services
     │   │   ├── file.py
