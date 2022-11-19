@@ -55,7 +55,7 @@ X = corpus['invoice_text']
 #corpus['target'] = target
 
 # Preprocess corpus:
-cleaner = preproc.clean_text(language='german', without_stopwords=['nicht', 'keine'], lemma = True, stem = False)
+cleaner = preproc.clean_text(language='german', without_stopwords=['nicht', 'keine'], lemma = False, stem = False)
 
 X_cl = cleaner.fit_transform(X)
 
@@ -75,7 +75,7 @@ sentences = corpus_cl.tolist()
 
 # txt.doWrite(docs)
 
-# import fasttext
+import fasttext
 
 # # Training word embeddings: 
 # model = fasttext.train_unsupervised(os.path.join(glob.UC_DATA_PKG_DIR,'train_fasttext.txt'), wordNgrams = 2, dim=100, epoch=100, lr=0.05, loss='hs', verbose=2)
@@ -96,7 +96,7 @@ sentences = corpus_cl.tolist()
 #ds.iloc[:, 1].apply(lambda x: '__label__' + x)
 
 #-------------------------------------------------------------------------------------
-# model = Word2Vec.load(glob.UC_DATA_DIR + "/Word2Vec_embeddings.model")
+model = fasttext.load_model(os.path.join(glob.UC_DATA_DIR,'fasttext_trained_model.bin'))
 
 # #-------------------------------------------------------------------------------------
 # from sklearn.feature_extraction.text import TfidfVectorizer, HashingVectorizer

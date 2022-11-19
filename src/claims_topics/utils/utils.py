@@ -1,6 +1,7 @@
 import numpy as np
 from typing import (Dict, List, Text, Optional, Any, Callable, Union)
 from gensim.models.callbacks import CallbackAny2Vec
+import fasttext
 from sklearn.feature_extraction.text import TfidfVectorizer
 from copy import deepcopy
 from tqdm import tqdm
@@ -33,7 +34,6 @@ def get_document_embeddings(model : Callable, sentences : List[List[Text]], docu
     return doc_vectors, index2doc, doc2index
 
 
-
 def get_weighted_document_embeddings(model : Callable, tf_idf_vec : pd.DataFrame, sentences : List[List[Text]], documents : List[Text])-> np.array:
     """
     Calculate Word2Vec document embeddings by tf-idf weighted arith. average of word embeddings.
@@ -50,14 +50,27 @@ def get_weighted_document_embeddings(model : Callable, tf_idf_vec : pd.DataFrame
     index2doc, doc2index = {}, {}
     for i, doc in enumerate(tqdm(sentences, total=len(sentences))):
       index2doc[i], doc2index[str(documents[i])] = documents[i], i
-      #print(doc)
       doc_i = 0
       for token in doc:
-          #print(token) 
           weight = tf_idf_vec.loc[i,token] if token in tf_idf_vec.columns else 0
           doc_i += weight * model.wv[token]
       doc_vecs[i,:] = doc_i  
     return doc_vecs, index2doc, doc2index
+
+
+def get_fasttext_document_embeddings(model : Callable, documents : List[Text])-> np.array:
+    """Get FastText document embeddings.
+    Args:
+        model (Callable): tarined fasttext model
+        documents (List[Text]): preprocessed corpus
+
+    Returns:
+        np.array: Array of dimension #corpus_size x #embedding_dimension
+    """
+    assert isinstance(model, fasttext.FastText._FastText), 'model must be trained fasttext instance!'
+    svec = [model.get_sentence_vector(d) for d in tqdm(documents, total=len(documents))]
+    sent_embed = np.vstack(svec)
+    return sent_embed
 
 class word2vec_callback(CallbackAny2Vec):
     """
