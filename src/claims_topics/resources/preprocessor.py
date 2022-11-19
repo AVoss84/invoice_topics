@@ -23,7 +23,6 @@ from claims_topics.config import global_config as glob
 nltk.download('punkt')
 nltk.download('stopwords')
 
-
 class clean_text(BaseEstimator, TransformerMixin):
 
     def __init__(self, verbose : bool = True, language : str = 'german', stem : bool = False, lemma : bool = False, **kwargs):

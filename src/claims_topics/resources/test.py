@@ -59,26 +59,26 @@ cleaner = preproc.clean_text(language='german', without_stopwords=['nicht', 'kei
 
 X_cl = cleaner.fit_transform(X)
 
-docs = X_cl.tolist()                            # format for BertTopic
+corpus_cl = X_cl.apply(lambda x: word_tokenize(x)) 
+
+docs = X_cl.str.lower().tolist()                            # format for BertTopic
+
 target_names = corpus['assigned_labels'].tolist()       # class labels
 
 corpus_cl = X_cl.apply(lambda x: word_tokenize(x))       # this format needed for word2vec training only
 
 sentences = corpus_cl.tolist() 
-
 #-----------------------------------------------------------------------------------------------------
 
 # Prepare FastText train set:
 txt = file.TXTService(verbose=True, root_path=glob.UC_DATA_PKG_DIR, path='train_fasttext.txt')
 
-txt.doWrite(sentences)
-
-txt.doRead()
+txt.doWrite(docs)
 
 import fasttext
 
 # Training the fastText classifier
-model = fasttext.train_supervised('train.txt', wordNgrams = 2)
+model = fasttext.train_supervised('train_fasttext.txt', wordNgrams = 2)
 
 # Evaluating performance on the entire test file
 model.test('test.txt')                      
@@ -90,6 +90,7 @@ model.test('test.txt')
 #model.save_model('model.bin')
 
 #ds.iloc[:, 1].apply(lambda x: '__label__' + x)
+
 #-------------------------------------------------------------------------------------
 model = Word2Vec.load(glob.UC_DATA_DIR + "/Word2Vec_embeddings.model")
 
