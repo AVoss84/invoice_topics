@@ -20,6 +20,6 @@ input:
 
 output:
     service:
-          PickleService:
-              path: clm_out.pkl       
+          TXTService:
+              path: train_data_fasttext.txt       
   

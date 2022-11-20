@@ -147,7 +147,7 @@ class clean_text(BaseEstimator, TransformerMixin):
 
     def replace_umlaut(self, text : str) -> str:
         """Replace special German umlauts (vowel mutations) from text"""
-        vowel_char_map = {ord(k): v for k,v in self.umlaut['replace']['german']['umlaute'].items()}  # use unicode value of Umlaut
+        vowel_char_map = {ord(k): v for k,v in self.umlaut['umlaute'].items()}  # use unicode value of Umlaut
         return [token.translate(vowel_char_map) for token in text]
 
     def stem(self, text : str)-> str:
@@ -157,7 +157,7 @@ class clean_text(BaseEstimator, TransformerMixin):
     def lemmatize(self, text : str)-> str:
         """Apply spaCy lemmatization"""
         text = self.untokenize(text)
-        return [token.lemma_ for token in self.nlp(text)]
+        return [token.lemma_.lower() for token in self.nlp(text)]
 
     def fit(self, X : pd.DataFrame, y : pd.Series = None):
         return self    

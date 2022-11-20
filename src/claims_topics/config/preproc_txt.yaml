@@ -1,9 +1,6 @@
-replace:
-    german:            
-        umlaute:    
-            ä: ae
-            ö: oe
-            ü: ue
-            ß: ss  
-             
+umlaute:    
+    ä: ae
+    ö: oe
+    ü: ue
+    ß: ss
     

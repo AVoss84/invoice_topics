@@ -114,21 +114,17 @@ class PickleService:
         if self.schema_map: df.rename(columns = self.schema_map, inplace = True)
         return df
 
-    def doWrite(self, X: pd.DataFrame, **kwargs)-> bool:
+    def doWrite(self, X: pd.DataFrame, **kwargs):
         """Write to PKL file
 
         Args:
             X (pd.DataFrame): input data
-
-        Returns:
-            bool: True if write process was successful and vice versa
         """
         try:
             X.to_pickle(path = self.path, compression = None)    
             if self.verbose : print(f"Pickle Service Output to File: {str(self.path)}")
-            return True
         except Exception as e0:
-            print(e0); return False        
+            print(e0)
 
 
 class YAMLservice:
@@ -157,22 +153,18 @@ class YAMLservice:
                     print(exc) 
             return my_yaml_load
         
-        def doWrite(self, X: pd.DataFrame, **kwargs)-> bool:
+        def doWrite(self, X: pd.DataFrame, **kwargs):
             """Write dictionary X to YAMl file
 
             Args:
                 X (pd.DataFrame): Input data
-
-            Returns:
-                bool: True if write process was successful and vice versa
             """
             with open(self.path, 'w') as outfile:
                 try:
                     yaml.dump(X, outfile, default_flow_style=False)
                     if self.verbose: print(f"Write to: {self.path}")
-                    return True
                 except yaml.YAMLError as exc:
-                    print(exc); return False
+                    print(exc)
 
 
 class TXTService:
@@ -203,23 +195,18 @@ class TXTService:
         finally: 
             return df
         
-    def doWrite(self, X : List, **kwargs)-> bool:
-        """Write to TXT files
-
+    def doWrite(self, X : List, **kwargs):
+        """Write to TXT files.
         Args:
             X (List): Input data
-
-        Returns:
-            bool: True if write process was successful and vice versa
         """
         try:
             with open(self.path, 'w', **kwargs) as f:
                 f.write('\n'.join(X))
             #X.to_csv(self.path, index=None, sep=' ', header=None, encoding = self.encoding, mode='w+', **kwargs)
             if self.verbose : print(f"TXT Service output to file: {str(self.path)}")  
-            return True
         except Exception as e0:
-            print(e0); return False
+            print(e0)
 
 
 class JSONservice:
