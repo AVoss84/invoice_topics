@@ -4,7 +4,7 @@ Services for reading and writing from and to various file formats
 
 import pandas as pd
 from imp import reload
-import os, yaml, json
+import os, yaml, json, toml
 from typing import (Dict, List, Text, Optional, Any, Union)
 from claims_topics.config import global_config as glob
 
@@ -243,4 +243,41 @@ class JSONservice:
                     if self.verbose: print(f'Write to: {self.path}')
                 except Exception as exc:
                     print(exc) 
-                    
+                   
+class TOMLservice:
+        def __init__(self, path : Optional[str] = "", root_path : str = glob.UC_CODE_DIR, 
+                     verbose : bool = False):
+            """Generic read/write service for TOML files.
+            Args:
+                path (str, optional): _description_. Defaults to "".
+                root_path (str, optional): _description_. Defaults to glob.UC_CODE_DIR.
+                verbose (bool, optional): _description_. Defaults to False.
+            """
+            self.root_path = root_path
+            self.path = path
+            self.verbose = verbose 
+
+        def doRead(self, **kwargs)-> dict:  
+            """Read from toml file.
+            Returns:
+                Dict: Imported toml file
+            """
+            with open(os.path.join(self.root_path, self.path), 'r') as stream:
+                try:
+                    toml_load = toml.load(stream, **kwargs)   
+                    if self.verbose: print(f"Read: {self.root_path+self.path}")
+                except Exception as exc:
+                    print(exc) 
+            return toml_load
+
+        def doWrite(self, X: dict, **kwargs)-> bool:
+            """Write dictionary X to TOML file.
+            Args:
+                X (Dict): Input dictionary
+            """
+            with open(os.path.join(self.root_path, self.path), 'w') as outfile:
+                try:
+                    toml.dump(X, outfile)
+                    if self.verbose: print(f"Write to: {self.root_path+self.path}")
+                except Exception as exc:
+                    print(exc)
