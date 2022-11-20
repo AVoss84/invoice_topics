@@ -1,6 +1,6 @@
 # Invoice topic modeling project
 
-Python package for invoice data topic exploration
+Python package *claims_topics* for invoice data topic exploration
 
 ## Package structure
 
