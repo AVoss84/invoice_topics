@@ -11,6 +11,7 @@ input:
           text_cols:
               dl_gewerk: assigned_labels 
               de1_eks_postext: invoice_text 
+              schilderung: clm_descr
         #   date_cols: 
         #       Date of Loss: clm_dol 
         #       Notification Date: clm_don 
